@@ -100,8 +100,8 @@ def access_account(list_of_user):
     for user in list_of_user:
         if user.getName() == user_name:  # if name found in list, print all the info about the user.
             print("Hello " + user.getName() + ". Your DOB is " + user.getDOB() + " and your account number is " + str(
-                user.getAccountNum()) +
-                  " . You have $" + str(user.getBalance()) + " in your account\n")
+                user.getAccountNum()) + " . You have $" + str(user.getBalance()) + " in your account\n")
+            
             # then ask what they want to do - deposit or withdraw
             access = int(input("Do you want to deposit (1) or withdraw (2) money? "))
             if access == 1:
