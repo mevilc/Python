@@ -75,7 +75,7 @@ class User:
     def deposit(self, dep_value):
         ''' Deposits money into account '''
         self.balance += dep_value  # adds value to balance
-        print("\nYou have added $" + str(dep_value) + " to your account. Your Balance is $" + str(round(self.balance,2)) + ".")
+        print("\nYou have added $" + str(dep_value) + " to your account. Your Balance is $" + str(round(self.balance,2)) + ".\n")
 
     def withdraw(self,with_value):
         ''' Withdraws money from account '''
@@ -92,6 +92,7 @@ class User:
             elif not_enough == "N":
                 pass
 
+
 # Loops through the list of users to check if a user exist
 def access_account(list_of_user):
     ''' Finds if there is an account with a name given by user '''
@@ -101,7 +102,7 @@ def access_account(list_of_user):
         if user.getName() == user_name:  # if name found in list, print all the info about the user.
             print("Hello " + user.getName() + ". Your DOB is " + user.getDOB() + " and your account number is " + str(
                 user.getAccountNum()) +
-                  " . You have $" + str(user.getBalance()) + " in your account\n")
+                  ". You have $" + str(user.getBalance()) + " in your account.\n")
             # then ask what they want to do - deposit or withdraw
             access = int(input("Do you want to deposit (1) or withdraw (2) money? "))
             if access == 1:
@@ -110,6 +111,7 @@ def access_account(list_of_user):
             elif access == 2:
                 remove = float(input("How much do you want to withdraw? "))
                 user.withdraw(remove)
+
         # if account with name not found, track how many times
         else:
             count += 1
@@ -122,10 +124,13 @@ def access_account(list_of_user):
 
 list_of_user = []  # keeps track of all users
 user_input = 0  # just to get into while loop
+closed_accounts = []  # keeps track of all the closed accounts
 
 print("\nWELCOME TO THE BANK\n")
-while user_input != "4":
-    user_input = input("(1) Create an account,\n(2) access an existing account,\n(3) see all users, or \n(4) exit\n")
+while user_input != "6":
+    user_input = input("(1) Create an account,\n(2) access an existing account,\n"
+                       "(3) see all active accounts,\n(4) see all closed accounts, \n(5) close an account,"
+                       " or \n(6) exit\n")
 
     # if user wants to make a new account, make a new instance (object) of the class and add it to the list
     if user_input == "1":
@@ -134,24 +139,57 @@ while user_input != "4":
 
     # if user wants to access existing account, check list and ask what next to do
     elif user_input == "2":
-        user_name = input("Enter the name of the account: ")
-        # loops through to check if name given is in system
-        access_account(list_of_user)
+        if len(list_of_user) == 0:
+            print("There are no accounts yet.\n")
+        else:
+            user_name = input("Enter the name of the account: ")
+            # loops through to check if name given name is in system
+            access_account(list_of_user)
 
     # if user wants to see all users in bank, access every instance in list and get info for each one
     elif user_input == "3":
         if len(list_of_user) == 0:
-            print("There are no accounts yet.\n")
+            print("There are no active accounts.\n")
         else:
-            print("These are all the accounts in this Bank: \n")
-        for user in list_of_user:
-            print("Name: " + user.getName() + ", DOB: " + user.getDOB() + ", Balance: $" + str(user.getBalance()) +
-                  ", Account Number: " + str(user.getAccountNum()))
+            print("There are " + str(len(list_of_user)) + " accounts in this Bank: \n")
+            for user in list_of_user:
+                print("Name: " + user.getName() + ", DOB: " + user.getDOB() + ", Balance: $" + str(user.getBalance()) +
+                    ", Account Number: " + str(user.getAccountNum()))
+            print()
+
+    #  if bank wants to see all the closed accounts, check if account exists and then remove it from list of users
+    elif user_input == "4":
+        if len(closed_accounts) == 0 and len(list_of_user) == 0:
+            print("There are no closed account yet.\n")
+        else:
+            print("There are " + str(len(closed_accounts)) + " closed accounts.\n" )
+            for closed in closed_accounts:
+                print("Name: " + closed.getName() + "\nDOB: " + closed.getDOB() + "\nAccount Number: " + str(closed.getAccountNum()))
+            print()
+
+    # if user wants to close account, find the name in the list of users and remove it.
+    elif user_input == "5":
+        acc_to_close = input("Enter the name on the account: \n")
+        closed_count = 0
+
+        # loops through all users and if it exists, removes it from active users and adds to closed accounts
+        for all_accounts in list_of_user:
+            if all_accounts.getName() == acc_to_close:
+                list_of_user.remove(all_accounts)
+                closed_accounts.append(all_accounts)
+                print("The account is successfully removed.\n")
+                break
+            else:
+                closed_count += 1
+                if closed_count == len(list_of_user):
+                    print("Sorry, an account with that name does not exist.\n")
 
     # if user does not enter one of the options
-    elif user_input not in "1234":
+    elif user_input not in "123456":
         user_input = input("Please enter a valid option."
-                           " \n(1) Create an account,\n(2) access an existing account,\n(3) see all users, or \n(4) exit\n")
+                           " \n(1) Create an account,\n(2) access an existing account,\n"
+                       "(3) see all active accounts,\n(4) see all closed accounts, \n(5) close an account,"
+                       " or \n(6) exit\n")
 
 
 print("\nThank you for using the Bank")
