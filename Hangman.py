@@ -6,8 +6,8 @@ random_word = random.choice(words) # choose a random word to guess
 underscore_word = []  # adds "_" to some characters in random word
 
 # adds each character of random word as an element in a list
-for i in random_word:
-    underscore_word.append(i)
+
+underscore_word = [i for i in random_word] # using list comprehnesion to append to list
 guessed_let = []  # keeps track of all guessed letters
 
 #  Replaces random characters in word with "_" for user to guess
