@@ -8,4 +8,4 @@
 
 3) **Guess the Number**: Computer generates random numbers uing the random module and the user guesses it with hints from the computer. Three levels of difficulty.
 
-4) **Hangman**: 
+4) **Hangman**: If user guesses the correct letters, wins the game. If not, for each incorrect guess a part of a hangman is drawn. List Comprehension.
